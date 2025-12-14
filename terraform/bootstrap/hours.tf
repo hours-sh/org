@@ -34,3 +34,50 @@ module "hours_dev" {
 
   depends_on = [tfe_project.hours]
 }
+
+# dns
+resource "google_dns_managed_zone" "hours_dev" {
+  project = data.google_project.hours_dev.project_id
+
+  name     = "dev"
+  dns_name = "dev.${google_dns_managed_zone.this.dns_name}"
+
+  dnssec_config {
+    state = "on"
+  }
+}
+resource "google_dns_record_set" "hours_dev" {
+  project      = data.google_project.this.project_id
+  managed_zone = google_dns_managed_zone.this.name
+
+  name = google_dns_managed_zone.hours_dev.dns_name
+  type = "NS"
+  ttl  = 300
+
+  rrdatas = google_dns_managed_zone.hours_dev.name_servers
+}
+
+# repos
+resource "github_repository" "hours" {
+  name        = "hours"
+  description = "hours.sh is a local-first time-tracking and invoicing tool"
+
+  homepage_url = "https://hours.sh"
+
+  allow_auto_merge       = true
+  allow_merge_commit     = true
+  allow_squash_merge     = false
+  allow_rebase_merge     = false
+  auto_init              = false
+  delete_branch_on_merge = false
+  has_issues             = true
+  has_projects           = false
+  has_wiki               = false
+  visibility             = "public"
+
+  topics = [
+    "local-first",
+    "time-tracking",
+    "invoicing",
+  ]
+}
