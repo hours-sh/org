@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "hours-sh"
+    organization = "sh-hours"
 
     workspaces {
       name = "bootstrap"
