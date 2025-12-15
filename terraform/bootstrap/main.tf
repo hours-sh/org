@@ -54,7 +54,7 @@ resource "google_dns_record_set" "txt" {
   rrdatas = [
     "\"google-site-verification=WYABDEJ24RDhciw_SJATvfMwWaRuRWmy6HTs5XwjZWA\"",
 
-    "\"Soverin=FahUxNiLlV0vcBOw\"",
+    "\"Soverin=SwFdUHhXDNfL6r8x\"",
     "\"v=spf1 include:soverin.net ~all\"",
   ]
 }
